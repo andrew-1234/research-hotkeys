@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
@@ -13,22 +14,26 @@ func main() {
 	fmt.Println("Activating scholar button")
 	scholar()
 }
+
 func scholar() {
-	fmt.Println("--- Please press ctrl + shift + q to stop hook ---")
+	date := time.Now()
+	fmt.Println("Press ctrl + shift + q to exit the program")
+	fmt.Println("Press ctrl + shift + g to search highlighted text in google scholar")
 	hook.Register(hook.KeyDown, []string{"q", "ctrl", "shift"}, func(sch hook.Event) {
 		fmt.Println("ctrl-shift-q")
 		hook.End()
 	})
 
-	hook.Register(hook.KeyDown, []string{"w"}, func(sch hook.Event) {
+	hook.Register(hook.KeyDown, []string{"ctrl", "shift", "g"}, func(sch hook.Event) {
 		fmt.Println("w")
 		getstring()
-		pastestring()
-		webbrowser.Open("http://golang.org")
-		webbrowser.Open("https://scholar.google.com.au/scholar?hl=en&as_sdt=0%2C5&q=text%20goes%20here&btnG=")
+		data2 := pastestring()
+		//webbrowser.Open("https://scholar.google.com.au/scholar?hl=en&as_sdt=0%2C5&q=text%20goes%20here&btnG=")
 		web1 := "https://scholar.google.com.au/scholar?hl=en&as_sdt=0%2C5&q="
 		web2 := "&btnG="
-		web3 := web1 + web2
+		web3 := web1 + string(data2) + web2
+		webbrowser.Open(string(web3))
+		fmt.Println(date.Format("2006-01-02"), "_scholar_", string(data2))
 	})
 
 	start := hook.Start()
@@ -40,22 +45,12 @@ func getstring() {
 	robotgo.KeyTap("c", "cmd")
 
 }
-func pastestring() {
+
+func pastestring() []byte {
 	clip, _ := clipper.GetClipboard(clipper.Clipboards...)
 
 	// paste to stdout
 	data2, _ := clip.ReadAll(clipper.RegClipboard)
-	fmt.Print(string(data2))
+	return data2
+	//fmt.Print(string(data2))
 }
-
-/*
-	func Example() {
-		//clipboard.WriteAll("text")
-		selected =
-		text, _ := clipboard.ReadAll()
-		fmt.Println(text)
-
-		// Output:
-		// 日本語
-	}
-*/

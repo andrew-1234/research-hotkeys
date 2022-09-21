@@ -1,4 +1,4 @@
-module research-hotkeys
+module github.com/andrew-1234/research-hotkeys
 
 go 1.19
 
