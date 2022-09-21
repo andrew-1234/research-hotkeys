@@ -18,14 +18,12 @@ func main() {
 func scholar() {
 	date := time.Now()
 	fmt.Println("Press ctrl + shift + q to exit the program")
-	fmt.Println("Press ctrl + shift + g to search highlighted text in google scholar")
 	hook.Register(hook.KeyDown, []string{"q", "ctrl", "shift"}, func(sch hook.Event) {
 		fmt.Println("ctrl-shift-q")
 		hook.End()
 	})
 
 	hook.Register(hook.KeyDown, []string{"ctrl", "shift", "g"}, func(sch hook.Event) {
-		fmt.Println("w")
 		getstring()
 		data2 := pastestring()
 		//webbrowser.Open("https://scholar.google.com.au/scholar?hl=en&as_sdt=0%2C5&q=text%20goes%20here&btnG=")
